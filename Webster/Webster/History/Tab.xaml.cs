@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,34 +12,33 @@ namespace Webster
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Tab : ContentView
     {
-        public string Url;
+        public TabInfo Info;
+        private TabsManager Manager;
 
-        private TabsManager Parent;
-
-        public Tab(TabsManager manager, string url, string title, Uri imageUri)
+        public Tab(TabsManager manager, TabInfo info)
         {
             InitializeComponent();
 
-            Parent = manager;
-            
-            Url = url;
-            TabName.Text = title;
-            if (imageUri != null)
+            Manager = manager;
+
+            Info = info;
+            TabName.Text = info.Title;
+            if (info.ImageIri != null)
             {
-                Image.Source = ImageSource.FromUri(imageUri);
+                Image.Source = ImageSource.FromUri(info.ImageIri);
             }
             
             var trigger = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
             trigger.TappedCallback = (sender, args) =>
             {
-                MainPage.MainBrowser.Source = Url;
+                MainPage.MainBrowser.Source = info.Url;
             };
             MainGrid.GestureRecognizers.Add(trigger);
         }
 
         private void Button_OnClicked(object sender, EventArgs e)
         {
-            Parent.RemoveTab(this);
+            Manager.RemoveTab(this);
         }
     }
 }
