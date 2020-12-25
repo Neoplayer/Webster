@@ -4,13 +4,13 @@
              xmlns:webster="clr-namespace:Webster;assembly=Webster"
              x:Class="Webster.MainPage">
 
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-
-        <WebView Grid.Row="0" x:Name="MainBrowser" Source="https://www.google.com"  />
+        
+        <WebView Grid.Row="0" x:Name="Browser" Source="https://www.google.com/" />
 
         <webster:MainBar x:Name="MainBar" Grid.Row="1"/>
     </Grid>

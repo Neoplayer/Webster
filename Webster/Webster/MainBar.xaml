@@ -2,8 +2,9 @@
 
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:webster="clr-namespace:Webster;assembly=Webster"
              x:Class="Webster.MainBar">
-    <Grid BackgroundColor="Azure">
+    <Grid BackgroundColor="Azure" Unfocused="VisualElement_OnUnfocused">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
@@ -30,6 +31,7 @@
                    VerticalTextAlignment="Center" 
                    FontSize="15" 
                    TextColor="Black" 
+                   Margin="5"
                    BackgroundColor="Transparent" 
                    Focused="UrlLine_OnFocused"
                    Unfocused="UrlLine_OnFocusedLost"/>
@@ -37,6 +39,13 @@
             <Button Grid.Column="2" x:Name="TButton" Text="i" WidthRequest="40" HeightRequest="40" CornerRadius="20" Margin="5" Clicked="QSettingsButton_Clicked"/>
         </Grid>
 
-        <Grid x:Name="QSettingsGrid" Grid.Row="1" BackgroundColor="Cyan"/>
+        <Grid x:Name="QSettingsGrid" Grid.Row="1" HeightRequest="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            
+            <webster:TabsManager Grid.Column="1" x:Name="TabsManager"/>
+        </Grid>
     </Grid>
 </ContentView>

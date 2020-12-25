@@ -27,9 +27,12 @@ namespace Webster
         {
             Browser = browser;
             
+            
             Browser.Navigating += (sender, args) =>
             {
                 UrlLine.Text = args.Url;
+                
+                TabsManager.AddTab(args.Url);
             };
         }
         
@@ -50,7 +53,7 @@ namespace Webster
 
         private void QSettingsButton_Clicked(object sender, EventArgs e)
         {
-            if(SearchRequest != String.Empty)
+            if(!string.IsNullOrEmpty(SearchRequest))
             {
                 Browser.Source = RequestDispatcher.CreateUrl(SearchRequest);
             }
@@ -68,6 +71,28 @@ namespace Webster
 
         private void UrlLine_OnFocused(object sender, FocusEventArgs e)
         {
+            Show();
+        }
+        private void UrlLine_OnFocusedLost(object sender, FocusEventArgs e)
+        {
+            Hide();
+        }
+
+        private void VisualElement_OnUnfocused(object sender, FocusEventArgs e)
+        {
+            Hide();
+        }
+
+
+        private void Show()
+        {
+            if (BarState == BarState.Maximized)
+            {
+                return;
+            }
+            BarState = BarState.Maximized;
+            
+            
             var animation = new Animation(d =>
             {
                 NavStack.WidthRequest = d;
@@ -87,8 +112,15 @@ namespace Webster
                 UrlLine.SelectionLength = UrlLine.Text?.Length ?? 0;
             });
         }
-        private void UrlLine_OnFocusedLost(object sender, FocusEventArgs e)
+        
+        public void Hide()
         {
+            if (BarState == BarState.Minimized)
+            {
+                return;
+            }
+            BarState = BarState.Minimized;
+            
             NavStack.IsVisible = true;
             var animation = new Animation(d =>
             {

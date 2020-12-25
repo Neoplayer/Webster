@@ -10,16 +10,17 @@ namespace Webster
 {
     public partial class MainPage : ContentPage
     {
-        public static MainPage Instance;
+        public static WebView MainBrowser;
 
 
         public MainPage()
         {
-            Instance = this;
-            
             InitializeComponent();
             
-            MainBar.Init(MainBrowser);
+            
+            MainBrowser = Browser;
+            
+            MainBar.Init(Browser);
         }
     }
 }
